@@ -1,0 +1,29 @@
+{
+  "name": "arn-gestion-puesto-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development DEVICE_ENV=raspi nodemon --ignore '*.json' ./app.js",
+    "dev:win32": "cross-env NODE_ENV=development DEVICE_ENV=win32 nodemon --ignore '*.json' ./app.js",
+    "dev:android": "cross-env NODE_ENV=development DEVICE_ENV=android nodemon --ignore '*.json' ./app.js",
+    "prod": "cross-env NODE_ENV=production DEVICE_ENV=raspi node ./app.js",
+    "prod:win32": "cross-env NODE_ENV=production DEVICE_ENV=win32 node ./app.js",
+    "prod:android": "cross-env NODE_ENV=production DEVICE_ENV=android node ./app.js",
+    "test": "test"
+  },
+  "author": "oscar",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "onoff": "^6.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.6"
+  }
+}
