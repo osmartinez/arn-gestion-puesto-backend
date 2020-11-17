@@ -6,4 +6,6 @@ module.exports = function (router) {
     router.route('/gpio/obtenerEstadoPins')
         .get(pinsService.obtenerEstadoPins);
 
+    router.route('/gpio/pulsoMaquina')
+    .post(pinsService.registrarPulso)
 }

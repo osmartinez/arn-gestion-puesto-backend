@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const config = require('./config')
 const store = require('./store')
 const cors = require('cors')
+const { iniciar } = require('./src/lib/pins/gpio.config.js')
 
 const app = express()
 
@@ -14,23 +15,38 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
 var puestoActual = null
-puestoActual = store.GetPuesto()
 
-// si estoy ejecutando desde la placa, configuro los pins
-if (device == 'raspi') {
-    console.log(`[${env} ${device}] arn-gestion-puesto-backend connecting with gpios`)
-    const GpioConfiguracion = require('./src/lib/pins/gpio.config.js')
-    process.on('SIGINT', _ => {
-        console.log('desconectando pins')
-        GpioConfiguracion.desconectar()
-    });
-    GpioConfiguracion.iniciar()
-    if (puestoActual != null && puestoActual.Id) {
-        GpioConfiguracion.configurarPuesto(puestoActual)
+const iniciarPuesto = async ()=>{
+    while(puestoActual == null){
+        try {
+            puestoActual = await store.GetPuesto()    
+        } catch (error) {
+            console.error(error)
+        }
+
+        setTimeout(()=>{},2000)
+    }
+    
+    
+    // si estoy ejecutando desde la placa, configuro los pins
+    if (device == 'raspi') {
+        console.log(`[${env} ${device}] arn-gestion-puesto-backend connecting with gpios`)
+        const GpioConfiguracion = require('./src/lib/pins/gpio.config.js')
+        process.on('SIGINT', _ => {
+            console.log('desconectando pins')
+            GpioConfiguracion.desconectar()
+        });
+        GpioConfiguracion.iniciar()
+        if (puestoActual != null && puestoActual.Id) {
+            GpioConfiguracion.configurarPuesto(puestoActual)
+        }
     }
 }
+
+iniciarPuesto()
+
+
 
 const router = require('./src/routes/index')()
 app.use('/backend',router)

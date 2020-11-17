@@ -5,7 +5,7 @@ let puesto = {}
 module.exports = {
 
     async GetPuesto() {
-        if (puesto.Id) {
+        if (puesto!= null && puesto.Id) {
             return puesto
         }
         else {
