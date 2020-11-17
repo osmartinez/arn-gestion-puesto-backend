@@ -33,10 +33,10 @@ const iniciarPuesto = async ()=>{
     if (device == 'raspi') {
         console.log(`[${env} ${device}] arn-gestion-puesto-backend connecting with gpios`)
         const GpioConfiguracion = require('./src/lib/pins/gpio.config.js')
-        process.on('SIGINT', _ => {
+        /*process.on('SIGINT', _ => {
             console.log('desconectando pins')
             GpioConfiguracion.desconectar()
-        });
+        });*/
         GpioConfiguracion.iniciar()
         if (puestoActual != null && puestoActual.Id) {
             GpioConfiguracion.configurarPuesto(puestoActual)
