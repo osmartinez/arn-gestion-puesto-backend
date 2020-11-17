@@ -24,6 +24,7 @@ function configurarPuesto(puesto) {
     for (const maquina of puesto.Maquinas) {
         if (!maquina.EsPulsoManual) {
             if (maquina.PinPulso != null && maquina.PinPulso != 'null') {
+                console.log(`${maquina.PinPulso}`)
                 PINS[maquina.PinPulso].mode = 'in'
                 PINS[maquina.PinPulso].status = 'on'
                 PINS[maquina.PinPulso].flanco = 'up'
