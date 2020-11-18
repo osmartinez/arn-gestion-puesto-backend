@@ -1,6 +1,7 @@
 const Gpio = require('onoff').Gpio
 const PINS = {}
 const pinCount = 26
+const aedes = require('aedes')()
 
 function iniciar() {
     for (let i = 1; i <= 26; i++) {
@@ -42,10 +43,12 @@ function configurarPuesto(puesto) {
                                 const pulsoDependiente = PINS[maquina.PinPulso2].gpio_object.readSync()
                                 if (pulsoDependiente == maquina.ValorPulsoDependiente) {
                                     PINS[maquina.PinPulso].pulsesUp.push(1)
+                                    aedes.publish({ topic: '/puesto/pulso', payload: "un pulso!!"})
                                 }
                             }
                             else {
                                 PINS[maquina.PinPulso].pulsesUp.push(1)
+                                aedes.publish({ topic: '/puesto/pulso', payload: "un pulso!!"})
                             }
                         }
                     })

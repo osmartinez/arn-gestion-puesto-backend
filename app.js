@@ -4,12 +4,20 @@ const device = process.env.DEVICE_ENV || 'raspi'
 const morgan = require('morgan')
 const path = require('path')
 const bodyParser = require('body-parser');
-const config = require('./config')
 const store = require('./store')
 const cors = require('cors')
 const { iniciar } = require('./src/lib/pins/gpio.config.js')
-
+const wsPort = 8883
 const app = express()
+const aedes = require('aedes')()
+const httpServer = require('http').createServer()
+const ws = require('websocket-stream')
+ws.createServer({ server: httpServer }, aedes.handle)
+httpServer.listen(wsPort, function () {
+    console.log('Aedes MQTT-WS listening on port: ' + wsPort)
+});
+
+const config = require('./config')
 
 app.use(cors())
 app.use(morgan('dev'))
@@ -17,18 +25,18 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 var puestoActual = null
 
-const iniciarPuesto = async ()=>{
-    while(puestoActual == null){
+const iniciarPuesto = async () => {
+    while (puestoActual == null) {
         try {
-            puestoActual = await store.GetPuesto()    
+            puestoActual = await store.GetPuesto()
         } catch (error) {
             console.error(error)
         }
 
-        setTimeout(()=>{},2000)
+        setTimeout(() => { }, 2000)
     }
-    
-    
+
+
     // si estoy ejecutando desde la placa, configuro los pins
     if (device == 'raspi') {
         console.log(`[${env} ${device}] arn-gestion-puesto-backend connecting with gpios`)
@@ -49,7 +57,7 @@ iniciarPuesto()
 
 
 const router = require('./src/routes/index')()
-app.use('/backend',router)
+app.use('/backend', router)
 
 const serverPort = config[env].server.port
 const server = app.listen(serverPort, () => {

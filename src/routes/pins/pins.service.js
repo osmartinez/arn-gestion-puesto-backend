@@ -19,10 +19,10 @@ function PinsService() {
     async function registrarPulso(req, res, next) {
         const { IdPuesto, PinPulso, ProductoPorPulso } = req.body
         try {
-            const msg = await TareaNoSQLWebservice.sumarPares(IdPuesto, ProductoPorPulso)
             if (device == 'raspi') {
                 GpioConfiguracion.PINS[PinPulso].pulsesUp.pop()
             }
+            const msg = await TareaNoSQLWebservice.sumarPares(IdPuesto, ProductoPorPulso)
             return res.json(msg)
         } catch (error) {
             return res.status(500).json({ message: String(error) })
