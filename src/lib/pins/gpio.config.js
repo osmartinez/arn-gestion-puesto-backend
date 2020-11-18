@@ -3,6 +3,10 @@ const PINS = {}
 let broker = null
 const pinCount = 26
 
+function setBroker(brokerNew){
+    broker  = brokerNew
+}
+
 function iniciar() {
     for (let i = 1; i <= 26; i++) {
         PINS[`GPIO${i}`] = {
@@ -52,6 +56,7 @@ function configurarPuesto(puesto) {
                                 //PINS[maquina.PinPulso].pulsesUp.push(1)
                                 if(broker!= null)
                                     broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({maquinaId: maquina.ID, pinPulso: maquina.PinPulso})})
+                                
                             }
                         }
                     })
@@ -128,7 +133,7 @@ function desconectar() {
 module.exports = {
     iniciar: iniciar,
     //refrescarValoresLectura: refrescarValoresLectura,
-    broker: broker,
+    setBroker: setBroker,
     PINS: PINS,
     configurarPuesto: configurarPuesto,
     desconectar: desconectar,

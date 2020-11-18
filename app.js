@@ -17,7 +17,7 @@ const ws = require('websocket-stream')
 ws.createServer({ server: httpServer }, aedes.handle)
 httpServer.listen(wsPort, function () {
     console.log('Aedes MQTT-WS listening on port: ' + wsPort)
-    GpioConfiguracion.broker = aedes
+    GpioConfiguracion.setBroker(aedes)
 });
 /*mqttServer.listen(port, function() {
     console.log('Ades MQTT listening on port: ' + port)
