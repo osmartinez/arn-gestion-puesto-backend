@@ -46,6 +46,7 @@ function configurarPuesto(puesto) {
                             const fecha = new Date()
                             const n = fecha.getTime()
                             const resta =  n - (PINS[maquina.PinPulso].ultimaLectura == null? 0:  PINS[maquina.PinPulso].ultimaLectura)
+                            console.log(`${resta}>${maquina.ValorBouncingPulso}`)
                             if (PINS[maquina.PinPulso].depends_on > 0) {
                                 const pulsoDependiente = PINS[maquina.PinPulso2].gpio_object.readSync()
                                 if (pulsoDependiente == maquina.ValorPulsoDependiente) {
