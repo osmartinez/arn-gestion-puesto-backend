@@ -11,14 +11,14 @@ const wsPort = 8883
 const port = 1883
 const app = express()
 const aedes = require('aedes')()
-const server = require('net').createServer(aedes.handle);
+const mqttServer = require('net').createServer(aedes.handle);
 const httpServer = require('http').createServer()
 const ws = require('websocket-stream')
 ws.createServer({ server: httpServer }, aedes.handle)
 httpServer.listen(wsPort, function () {
     console.log('Aedes MQTT-WS listening on port: ' + wsPort)
 });
-server.listen(port, function() {
+mqttServer.listen(port, function() {
     console.log('Ades MQTT listening on port: ' + port)
 })
 
