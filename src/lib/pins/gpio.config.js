@@ -42,14 +42,14 @@ function configurarPuesto(puesto) {
                                 const pulsoDependiente = PINS[maquina.PinPulso2].gpio_object.readSync()
                                 if (pulsoDependiente == maquina.ValorPulsoDependiente) {
                                     console.log("PULSO!")
-                                    PINS[maquina.PinPulso].pulsesUp.push(1)
-                                    broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({})})
+                                    //PINS[maquina.PinPulso].pulsesUp.push(1)
+                                    broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({maquinaId: maquina.ID, pinPulso: maquina.PinPulso})})
                                 }
                             }
                             else {
                                 console.log("PULSO!")
-                                PINS[maquina.PinPulso].pulsesUp.push(1)
-                                broker.publish({ topic: '/puesto/pulso', payload: "un pulso!!"})
+                                //PINS[maquina.PinPulso].pulsesUp.push(1)
+                                broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({maquinaId: maquina.ID, pinPulso: maquina.PinPulso})})
                             }
                         }
                     })
