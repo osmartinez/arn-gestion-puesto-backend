@@ -1,5 +1,6 @@
 const Gpio = require('onoff').Gpio
 const PINS = {}
+let broker = null
 const pinCount = 26
 const aedes = require('aedes')()
 
