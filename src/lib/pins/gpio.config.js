@@ -34,7 +34,6 @@ function configurarPuesto(puesto) {
                 try {
                     PINS[maquina.PinPulso].gpio_object = new Gpio(PINS[maquina.PinPulso].number, PINS[maquina.PinPulso].mode, maquina.DisparoPulso, { debounceTimeout: maquina.ValorBouncingPulso })
                     PINS[maquina.PinPulso].gpio_object.watch((err, value) => {
-                        console.log("PULSO!")
                         if (err) {
                             console.error(err)
                         }
@@ -42,11 +41,13 @@ function configurarPuesto(puesto) {
                             if (PINS[maquina.PinPulso].depends_on > 0) {
                                 const pulsoDependiente = PINS[maquina.PinPulso2].gpio_object.readSync()
                                 if (pulsoDependiente == maquina.ValorPulsoDependiente) {
+                                    console.log("PULSO!")
                                     PINS[maquina.PinPulso].pulsesUp.push(1)
                                     broker.publish({ topic: '/puesto/pulso', payload: "un pulso!!"})
                                 }
                             }
                             else {
+                                console.log("PULSO!")
                                 PINS[maquina.PinPulso].pulsesUp.push(1)
                                 broker.publish({ topic: '/puesto/pulso', payload: "un pulso!!"})
                             }
