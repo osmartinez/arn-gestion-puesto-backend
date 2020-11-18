@@ -23,7 +23,6 @@ httpServer.listen(wsPort, function () {
 })*/
 
 const config = require('./config')
-config.mqtt = aedes
 
 app.use(cors())
 app.use(morgan('dev'))
@@ -47,6 +46,7 @@ const iniciarPuesto = async () => {
     if (device == 'raspi') {
         console.log(`[${env} ${device}] arn-gestion-puesto-backend connecting with gpios`)
         const GpioConfiguracion = require('./src/lib/pins/gpio.config.js')
+        GpioConfiguracion.broker = aedes
         /*process.on('SIGINT', _ => {
             console.log('desconectando pins')
             GpioConfiguracion.desconectar()
