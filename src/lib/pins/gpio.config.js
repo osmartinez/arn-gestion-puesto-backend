@@ -43,7 +43,7 @@ function configurarPuesto(puesto) {
                                 if (pulsoDependiente == maquina.ValorPulsoDependiente) {
                                     console.log("PULSO!")
                                     PINS[maquina.PinPulso].pulsesUp.push(1)
-                                    broker.publish({ topic: '/puesto/pulso', payload: "un pulso!!"})
+                                    broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({})})
                                 }
                             }
                             else {
