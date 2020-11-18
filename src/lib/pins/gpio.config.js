@@ -3,8 +3,8 @@ const PINS = {}
 let broker = null
 const pinCount = 26
 
-function setBroker(brokerNew){
-    broker  = brokerNew
+function setBroker(brokerNew) {
+    broker = brokerNew
 }
 
 function iniciar() {
@@ -20,6 +20,7 @@ function iniciar() {
             pulsesDown: [],
             depends_on: -1,
             type: null,
+            ultimaLectura: null
         }
     }
 }
@@ -36,27 +37,38 @@ function configurarPuesto(puesto) {
                 PINS[maquina.PinPulso].type = 'main-pulse'
 
                 try {
-                    PINS[maquina.PinPulso].gpio_object = new Gpio(PINS[maquina.PinPulso].number, PINS[maquina.PinPulso].mode, maquina.DisparoPulso, { debounceTimeout: maquina.ValorBouncingPulso })
+                    PINS[maquina.PinPulso].gpio_object = new Gpio(PINS[maquina.PinPulso].number, PINS[maquina.PinPulso].mode, maquina.DisparoPulso, { debounceTimeout: 0/*maquina.ValorBouncingPulso*/ })
                     PINS[maquina.PinPulso].gpio_object.watch((err, value) => {
                         if (err) {
                             console.error(err)
                         }
                         else {
+                            const fecha = new Date()
+                            const n = fecha.getTime()
+                            
                             if (PINS[maquina.PinPulso].depends_on > 0) {
                                 const pulsoDependiente = PINS[maquina.PinPulso2].gpio_object.readSync()
                                 if (pulsoDependiente == maquina.ValorPulsoDependiente) {
-                                    console.log("PULSO!")
-                                    //PINS[maquina.PinPulso].pulsesUp.push(1)
-                                    if(broker!= null)
-                                        broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({maquinaId: maquina.ID, pinPulso: maquina.PinPulso})})
+
+                                    if (PINS[maquina.PinPulso].ultimaLectura == null
+                                        || n - PINS[maquina.PinPulso].ultimaLectura > maquina.ValorBouncingPulso) {
+                                        console.log("PULSO!")
+                                        PINS[maquina.PinPulso].ultimaLectura = n
+                                        //PINS[maquina.PinPulso].pulsesUp.push(1)
+                                        broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({ maquinaId: maquina.ID, pinPulso: maquina.PinPulso }) })
+                                    }
+
                                 }
                             }
                             else {
-                                console.log("PULSO!")
-                                //PINS[maquina.PinPulso].pulsesUp.push(1)
-                                if(broker!= null)
-                                    broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({maquinaId: maquina.ID, pinPulso: maquina.PinPulso})})
-                                
+                                if (PINS[maquina.PinPulso].ultimaLectura == null
+                                    || n - PINS[maquina.PinPulso].ultimaLectura > maquina.ValorBouncingPulso) {
+                                    console.log("PULSO!")
+                                    PINS[maquina.PinPulso].ultimaLectura = n
+                                    //PINS[maquina.PinPulso].pulsesUp.push(1)
+                                    broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({ maquinaId: maquina.ID, pinPulso: maquina.PinPulso }) })
+                                }
+
                             }
                         }
                     })
@@ -98,7 +110,7 @@ function refrescarValoresLectura() {
             if (PINS[PIN].previous_value !== PINS[PIN].value) {
                 if (PINS[PIN].value == 1) {
                     if (PINS[PIN].flanco == 'up') {
-                        PINS[PIN].pulsesUp.push(1) 
+                        PINS[PIN].pulsesUp.push(1)
                     }
                 }
                 else {
