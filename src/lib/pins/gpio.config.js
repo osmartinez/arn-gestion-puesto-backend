@@ -43,13 +43,15 @@ function configurarPuesto(puesto) {
                                 if (pulsoDependiente == maquina.ValorPulsoDependiente) {
                                     console.log("PULSO!")
                                     //PINS[maquina.PinPulso].pulsesUp.push(1)
-                                    broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({maquinaId: maquina.ID, pinPulso: maquina.PinPulso})})
+                                    if(broker!= null)
+                                        broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({maquinaId: maquina.ID, pinPulso: maquina.PinPulso})})
                                 }
                             }
                             else {
                                 console.log("PULSO!")
                                 //PINS[maquina.PinPulso].pulsesUp.push(1)
-                                broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({maquinaId: maquina.ID, pinPulso: maquina.PinPulso})})
+                                if(broker!= null)
+                                    broker.publish({ topic: '/puesto/pulso', payload: JSON.stringify({maquinaId: maquina.ID, pinPulso: maquina.PinPulso})})
                             }
                         }
                     })
