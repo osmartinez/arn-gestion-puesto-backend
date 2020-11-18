@@ -45,13 +45,12 @@ function configurarPuesto(puesto) {
                         else {
                             const fecha = new Date()
                             const n = fecha.getTime()
-                            
+                            const resta =  n - (PINS[maquina.PinPulso].ultimaLectura == null? 0:  PINS[maquina.PinPulso].ultimaLectura)
                             if (PINS[maquina.PinPulso].depends_on > 0) {
                                 const pulsoDependiente = PINS[maquina.PinPulso2].gpio_object.readSync()
                                 if (pulsoDependiente == maquina.ValorPulsoDependiente) {
 
-                                    if (PINS[maquina.PinPulso].ultimaLectura == null
-                                        || n - PINS[maquina.PinPulso].ultimaLectura > maquina.ValorBouncingPulso) {
+                                    if (resta > maquina.ValorBouncingPulso) {
                                         console.log("PULSO!")
                                         PINS[maquina.PinPulso].ultimaLectura = n
                                         //PINS[maquina.PinPulso].pulsesUp.push(1)
@@ -61,8 +60,7 @@ function configurarPuesto(puesto) {
                                 }
                             }
                             else {
-                                if (PINS[maquina.PinPulso].ultimaLectura == null
-                                    || n - PINS[maquina.PinPulso].ultimaLectura > maquina.ValorBouncingPulso) {
+                                if (resta > maquina.ValorBouncingPulso) {
                                     console.log("PULSO!")
                                     PINS[maquina.PinPulso].ultimaLectura = n
                                     //PINS[maquina.PinPulso].pulsesUp.push(1)
