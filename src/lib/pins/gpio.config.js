@@ -27,6 +27,7 @@ function iniciar() {
 
 function configurarPuesto(puesto) {
     PINS[puesto.PinBuzzer].gpio_object = new Gpio(PINS[puesto.PinBuzzer].number,'out')
+    PINS[puesto.PinBuzzer].status = 'on'
     // entradas
     for (const maquina of puesto.Maquinas) {
         if (!maquina.EsPulsoManual) {
@@ -130,6 +131,7 @@ function escribirValor(pin, valor) {
         PINS[PIN].gpio_object.writeSync(valor)
     }
     else {
+        
         throw new Error(`${pin} está apagado`)
     }
 }
