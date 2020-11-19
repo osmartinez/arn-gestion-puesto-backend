@@ -32,7 +32,7 @@ function PinsService() {
     async function buzzerPaquete(req, res, next) {
         const { pinBuzzer } = req.body
         try {
-            if (device == 'raspi') {
+            if (device == 'raspi' && pinBuzzer !== 'null') {
                 GpioConfiguracion.escribirPulso(pinBuzzer,1)
                 setTimeout(()=>{GpioConfiguracion.escribirPulso(pinBuzzer,0)},1000)
                 return res.json({message: 'ok'})
