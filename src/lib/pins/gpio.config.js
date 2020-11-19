@@ -26,6 +26,7 @@ function iniciar() {
 }
 
 function configurarPuesto(puesto) {
+    PINS[puesto.PinBuzzer].gpio_object = new Gpio(PINS[puesto.PinBuzzer].number,'out')
     // entradas
     for (const maquina of puesto.Maquinas) {
         if (!maquina.EsPulsoManual) {
