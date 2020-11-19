@@ -31,6 +31,7 @@ function PinsService() {
 
     async function buzzerPaquete(req, res, next) {
         const { pinBuzzer } = req.body
+        console.log(req.body)
         try {
             if (device == 'raspi' && pinBuzzer !== 'null') {
                 GpioConfiguracion.escribirPulso(pinBuzzer,1)
