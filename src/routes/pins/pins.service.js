@@ -35,7 +35,7 @@ function PinsService() {
         try {
             if (device == 'raspi' && pinBuzzer !== 'null') {
                 GpioConfiguracion.escribirValor(pinBuzzer,1)
-                setTimeout(()=>{GpioConfiguracion.escribirValor(pinBuzzer,0)},5000)
+                setTimeout(()=>{GpioConfiguracion.escribirValor(pinBuzzer,0)},300)
                 return res.json({message: 'ok'})
             }
             
