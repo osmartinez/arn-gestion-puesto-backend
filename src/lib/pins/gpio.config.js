@@ -143,6 +143,7 @@ function desconectar() {
 
 module.exports = {
     iniciar: iniciar,
+    escribirValor: escribirValor,
     //refrescarValoresLectura: refrescarValoresLectura,
     setBroker: setBroker,
     PINS: PINS,

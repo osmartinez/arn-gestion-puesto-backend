@@ -29,9 +29,24 @@ function PinsService() {
         }
     }
 
+    async function buzzerPaquete(req, res, next) {
+        const { pinBuzzer } = req.body
+        try {
+            if (device == 'raspi') {
+                GpioConfiguracion.escribirPulso(pinBuzzer,1)
+                setTimeout(()=>{GpioConfiguracion.escribirPulso(pinBuzzer,0)},1000)
+                return res.json({message: 'ok'})
+            }
+            
+        } catch (error) {
+            return res.status(500).json({ message: String(error) })
+        }
+    }
+
     return {
         obtenerEstadoPins,
         registrarPulso,
+        buzzerPaquete
     }
 }
 

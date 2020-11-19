@@ -8,4 +8,7 @@ module.exports = function (router) {
 
     router.route('/gpio/pulsoMaquina')
     .post(pinsService.registrarPulso)
+
+    router.route('/gpio/buzzer/paquete')
+    .post(pinsService.buzzerPaquete)
 }
