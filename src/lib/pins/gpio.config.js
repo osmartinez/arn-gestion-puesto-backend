@@ -128,7 +128,7 @@ function refrescarValoresLectura() {
 
 function escribirValor(pin, valor) {
     if (PINS[pin].status == 'on') {
-        PINS[PIN].gpio_object.writeSync(valor)
+        PINS[pin].gpio_object.writeSync(valor)
     }
     else {
         
