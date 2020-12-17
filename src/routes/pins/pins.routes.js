@@ -11,4 +11,7 @@ module.exports = function (router) {
 
     router.route('/gpio/buzzer/paquete')
     .post(pinsService.buzzerPaquete)
+
+    router.route('/gpio/buzzer/custom')
+    .post(pinsService.buzzerCustom)
 }

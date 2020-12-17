@@ -95,36 +95,6 @@ function configurarPuesto(puesto) {
 
 }
 
-function configurarPin(pin, modo) {
-    PINS[pin].mode = modo
-    PINS[pin].status = 'on'
-    PINS[pin].gpio_object = new Gpio(PINS[pin].number, modo)
-}
-
-function refrescarValoresLectura() {
-    for (const PIN in PINS) {
-        if (PINS[PIN].status == 'on' && PINS[PIN].mode == 'in') {
-            PINS[PIN].previous_value = PINS[PIN].value
-            if (PINS[PIN].gpio_object == null) continue
-
-            PINS[PIN].value = PINS[PIN].gpio_object.readSync()
-            if (PINS[PIN].previous_value !== PINS[PIN].value) {
-                if (PINS[PIN].value == 1) {
-                    if (PINS[PIN].flanco == 'up') {
-                        PINS[PIN].pulsesUp.push(1)
-                    }
-                }
-                else {
-                    if (PINS[PIN].flanco == 'down') {
-                        PINS[PIN].pulsesDown.push(1)
-                    }
-                }
-
-            }
-
-        }
-    }
-}
 
 function escribirValor(pin, valor) {
     if (PINS[pin].status == 'on') {
